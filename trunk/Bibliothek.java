@@ -3,6 +3,7 @@ package Bibliothek;
 //import BibliothekControll;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -84,6 +85,7 @@ public class Bibliothek extends JFrame {
 	
 	private void initComponents() {
 		setTitle("Bibliothek");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Graphics/Blue Book Icon-128x128.png")));
 		setLayout(new GroupLayout());
 		add(getJPort(), new Constraints(new Leading(530, 10, 10), new Leading(31, 12, 12)));
 		add(getJDBTypeLabel(), new Constraints(new Leading(12, 12, 12), new Leading(63, 12, 12)));
