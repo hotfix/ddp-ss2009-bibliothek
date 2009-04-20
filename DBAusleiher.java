@@ -59,6 +59,7 @@ public class DBAusleiher extends JDialog {
 	public DBAusleiher(Bibliothek parent, String vn, String nn ) {
 		super(parent);
 		mParent = parent;
+		System.out.print(vn);
 		authorNN = nn;
 		authorVN = vn;
 		initComponents();
@@ -162,8 +163,8 @@ public class DBAusleiher extends JDialog {
 		stmt = mParent.getStatement();
 		
 		String query = ("SELECT bp.p_name FROM bibliothek_personen bp, bibliothek_ausleihhistorie ba " +
-						"WHERE bp.ausweisnr = ba.p_ausweisnr AND ba.inventarnr IN (" + 
-												"SELECT bo.inventarnr FROM bibliothek_objekt bo " +
+						"WHERE bp.ausweisnr = ba.p_ausweisnr AND ba.inventarnr IN " + 
+												"(SELECT bo.inventarnr FROM bibliothek_objekt bo " +
 												"WHERE bo.inventarnr IN (SELECT boha.Inventarnr " +
     										  						  	"FROM bibliothek_objekt_hat_autor boha " +
     										  						  	"WHERE boha.id IN (SELECT bau.id "+
