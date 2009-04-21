@@ -2,12 +2,14 @@ package Bibliothek;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -63,6 +65,7 @@ public class AddItem extends JDialog {
 
 	private void initComponents() {
 		setTitle("Add Bibo Objekt");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Graphics/Blue Book Icon-128x128.png")));
 		setFont(new Font("Dialog", Font.PLAIN, 12));
 		setBackground(new Color(240, 240, 240));
 		setModal(true);
@@ -83,7 +86,6 @@ public class AddItem extends JDialog {
 		add(getJErscheinung(), new Constraints(new Leading(125, 138, 12, 12), new Leading(165, 50, 50)));
 		add(getJInventar(), new Constraints(new Leading(125, 138, 12, 12), new Leading(24, 12, 12)));
 		setSize(443, 339);
-		setLocationRelativeTo(null);
 	}
 
 	private JTextField getJInventar() {
