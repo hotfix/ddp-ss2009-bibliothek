@@ -8,9 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import org.dyno.visual.swing.layouts.Constraints;
@@ -32,6 +30,7 @@ import org.dyno.visual.swing.layouts.Trailing;
 public class AddItem extends JDialog {
 
 	private Bibliothek mParent;
+	private DefaultTableModel tableModel;
 	private Statement stmt;
 	private ResultSet rset;
 	
@@ -55,9 +54,10 @@ public class AddItem extends JDialog {
 		initComponents();
 	}
 
-	public AddItem(Bibliothek parent) {
+	public AddItem(Bibliothek parent, DefaultTableModel _tableModel) {
 		super(parent);
 		mParent = parent;
+		tableModel = _tableModel;
 		initComponents();
 	}
 
@@ -247,11 +247,11 @@ public class AddItem extends JDialog {
 		String Authoren = new String(jAuthoren.getText());
 		
 		String error_message = "";
-		if (!Inventar.matches("[1-9]+")) 	  error_message = "Bitte geben Sie InventarNr noch mal ein!";
+		if (!Inventar.matches("[1-9]+"))      error_message = "Bitte geben Sie InventarNr noch mal ein!";
 		else if  (Titel.equals(""))			  error_message = "Bitte geben Sie den Titel ein!";
 		else if (Verlag.equals("")) 		  error_message = "Bitte geben Sie die Verlag ein!";
-		else if (Authoren.equals("")) 		  error_message = "Bitte geben Sie den Author ein!";
-			
+		else if (!Authoren.matches("[ ]*[a-zA-Z]+[ ]+[a-zA-Z]+([ ]*[,][ ]*[a-zA-Z]+[ ]+[a-zA-Z]+)*")) 
+											  error_message = "Bitte geben Sie gültige Authorennamen ein!";			
 		if (error_message != "") {
 			JOptionPane.showMessageDialog(
 					getParent(),
@@ -261,8 +261,12 @@ public class AddItem extends JDialog {
 					return;
 		}
 		
-		Authoren.replaceAll(" *, *", ",");		
-		String[] AuthorenTable = jAuthoren.getText().split(",");		
+		Authoren = Authoren.replaceAll(" *, *", ",");		
+		String[] AuthorenTable = Authoren.split(",");
+		
+		//System.out.println("AuthorenTable:");
+		//System.out.println(AuthorenTable[0]);
+		//System.out.println(AuthorenTable[1]);
 		
 		String query = ("INSERT INTO bibliothek_objekt VALUES (") +
 						Inventar + ", " + 
@@ -282,8 +286,8 @@ public class AddItem extends JDialog {
 			for(int i = 0; i < AuthorenTable.length; i++) {
 				// author[1] = Vorname des Authors
 				// author[0] = Nachname des Authors
-				String[] autor =  AuthorenTable[i].split(" ");
-				if (autor[0]==null || autor[1]==null) {
+				String[] autor =  AuthorenTable[i].split(" ");				
+				if (autor.length != 2) {
 					JOptionPane.showMessageDialog(
 							getParent(),
 							"Bitte geben Sie die Autorennamen richtig ein!",
@@ -291,6 +295,13 @@ public class AddItem extends JDialog {
 							JOptionPane.ERROR_MESSAGE);
 							return;
 				}
+				
+				autor[0] = autor[0].replaceAll(" ", "");
+				autor[1] = autor[1].replaceAll(" ", "");
+				
+				System.out.println("vorname: " + autor[0]);
+				System.out.println("nachname: " + autor[1]);
+				
 				if ((rset.getString(1).equals(autor[1])) && (rset.getString(2).equals(autor[0]))) {
 					query = "INSERT INTO bibliothek_objekt_hat_autor VALUES (" + 
 									anzahl_autoren + ", " + Inventar + ")";
@@ -318,6 +329,18 @@ public class AddItem extends JDialog {
 					(anzahl_autoren+1) + ", " + Inventar + ")";
 			stmt.executeQuery(query);
 		}
+		
+		
+		String[] row = new String[8];
+		row[0] = Inventar;
+		row[1] = Titel; 
+		row[2] = Verlag;
+		row[3] = Authoren;
+		row[4] = Typ;
+		row[5] = Erscheinung;
+		
+		tableModel.addRow(row);
+		
 		dispose();
 	}
 

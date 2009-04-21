@@ -162,12 +162,12 @@ public class DBAusleiher extends JDialog {
 						"WHERE bp.ausweisnr = ba.p_ausweisnr AND ba.inventarnr IN " + 
 												"(SELECT bo.inventarnr FROM bibliothek_objekt bo " +
 												"WHERE bo.inventarnr IN (SELECT boha.Inventarnr " +
-    										  						  	"FROM bibliothek_objekt_hat_autor boha " +
-    										  						  	"WHERE boha.id IN (SELECT bau.id "+
-    										  						  						"FROM bibliothek_autor bau " +
-    										  						  						"WHERE bau.vorname = " + authorVN +
-    										  						  						"AND bau.nachname = " + authorNN +
-    																					")))"); 
+    										  						  	 "FROM bibliothek_objekt_hat_autor boha " +
+    										  						  	 "WHERE boha.id IN (SELECT bau.id "+
+    										  						  					   "FROM bibliothek_autor bau " +
+    										  						  					   "WHERE bau.vorname = " + authorVN +
+    										  						  					   "AND bau.nachname = "  + authorNN +
+    																					   ")))"); 
 	//	String query = ("SELECT bp.p_name FROM bibliothek_personen bp"); 
 		rset = stmt.executeQuery(query);
 		String [] row = new String[1];

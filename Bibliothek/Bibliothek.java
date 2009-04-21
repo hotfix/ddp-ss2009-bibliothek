@@ -480,9 +480,8 @@ public class Bibliothek extends JFrame {
 		
 		DefaultTableModel m = getTableModel();		
 			
-		String query="SELECT bo.inventarnr, bo.titel, bo.verlag, ba.vorname, ba.nachname, bo.typ, bo.erscheinungsjahr, bo.P_Ausweisnr, bo.e_Ausweisnr "+
-		 			 "FROM bibliothek_objekt bo, bibliothek_autor ba, bibliothek_objekt_hat_autor boh "+
-		 			 "WHERE bo.inventarnr = boh.inventarnr AND ba.id = boh.id"; 
+		String query =  "SELECT bo.inventarnr, bo.titel, bo.verlag, bo.typ, bo.erscheinungsjahr, bo.P_Ausweisnr, bo.e_Ausweisnr " +
+						"FROM bibliothek_objekt bo"; 
 		  
 		rset = stmt.executeQuery(query);
 		
@@ -494,13 +493,29 @@ public class Bibliothek extends JFrame {
 			row[0]=rset.getString(1);// Inverntarnum
 			row[1]=rset.getString(2);// Titel
 			row[2]=rset.getString(3);// Verlag
-			row[3]=rset.getString(4) + " " + rset.getString(5); // Author
-			row[4]=rset.getString(6); // Typ
-			row[5]=rset.getString(7).replaceAll("-.*$",""); // Erscheinungsjahr
-			row[6]=rset.getString(8);
-			row[7]=rset.getString(9);
+			//row[3]="";
+			row[4]=rset.getString(4); // Typ
+			row[5]=rset.getString(5).replaceAll("-.*$",""); // Erscheinungsjahr
+			row[6]=rset.getString(6);
+			row[7]=rset.getString(7);
 			
 			m.addRow(row);
+		}
+		
+		int inventar;
+		String autors = "";
+		
+		for(int i = 0; i < m.getRowCount(); i++) {
+			inventar = Integer.parseInt((String)m.getValueAt(i, 0));
+			query = "SELECT ba.vorname, ba.nachname FROM bibliothek_autor ba " +
+					"WHERE ba.id IN (SELECT boha.id FROM bibliothek_objekt_hat_autor boha " +
+									 "WHERE boha.inventarnr =" + inventar +")";
+			rset = stmt.executeQuery(query);
+			while(rset.next()){
+				autors += rset.getString(1) + " " + rset.getString(2)+"; "; // Author				
+			}
+			m.setValueAt(autors, i, 3);
+			autors = "";
 		}
 		
 	}
@@ -543,9 +558,8 @@ public class Bibliothek extends JFrame {
 		
 		if (conn!=null) {
 			
-			AddItem dialog = new AddItem(this);
+			AddItem dialog = new AddItem(this, getTableModel());
 			dialog.pack();
-			//dialog.setTitle("Add Bibo Objekt");
 			dialog.setVisible(true);			
 		}
 	}
