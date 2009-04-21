@@ -33,7 +33,7 @@ import org.dyno.visual.swing.layouts.GroupLayout;
 import org.dyno.visual.swing.layouts.Leading;
 import org.dyno.visual.swing.layouts.Trailing;
 
-//VS4E -- DO NOT REMOVE THIS LINE!
+//VS4E -- DO NOT REMOVE THIS LINE!bla
 public class Bibliothek extends JFrame {
 
 	private Connection conn;
