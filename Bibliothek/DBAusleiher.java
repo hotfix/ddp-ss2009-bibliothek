@@ -17,9 +17,6 @@ import org.dyno.visual.swing.layouts.Constraints;
 import org.dyno.visual.swing.layouts.GroupLayout;
 import org.dyno.visual.swing.layouts.Leading;
 
-/**
- * 
- */
 
 //VS4E -- DO NOT REMOVE THIS LINE!
 public class DBAusleiher extends JDialog {
@@ -43,7 +40,7 @@ public class DBAusleiher extends JDialog {
 		mParent = parent;
 		initComponents();
 		try {
-			howBoredDatenbanken();
+			dbAusleiherAnzeigen();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(getParent(),
 				    e.getMessage(),
@@ -52,8 +49,7 @@ public class DBAusleiher extends JDialog {
 				    JOptionPane.ERROR_MESSAGE);
 			
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 	public DBAusleiher(Bibliothek parent, String vn, String nn ) {
@@ -65,7 +61,7 @@ public class DBAusleiher extends JDialog {
 		initComponents();
 		
 		try {
-			showByAthorBored();
+			AutorAusleiherAnzeigen();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(getParent(),
 				    e.getMessage(),
@@ -83,7 +79,6 @@ public class DBAusleiher extends JDialog {
 		add(getJScrollPane0(), new Constraints(new Leading(9, 217, 10, 10), new Leading(9, 259, 12, 12)));
 		setSize(234, 313);
 		setLocationRelativeTo(null);
-
 	}
 
 
@@ -121,14 +116,14 @@ public class DBAusleiher extends JDialog {
 			jOKButton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent event) {
-					jOKButtonMouseMouseClicked(event);
+					jOKButtonClicked(event);
 				}
 			});
 		}
 		return jOKButton;
 	}
 
-	private void jOKButtonMouseMouseClicked(MouseEvent event) {
+	private void jOKButtonClicked(MouseEvent event) {
 		dispose();
 	}
 
@@ -137,7 +132,7 @@ public class DBAusleiher extends JDialog {
 	 * Diese werden in die JTable geladen
 	 * @throws SQLException
 	 */
-	private void howBoredDatenbanken() throws SQLException{
+	private void dbAusleiherAnzeigen() throws SQLException{
 		DefaultTableModel m = (DefaultTableModel)(jAuthorTable.getModel());
 		stmt = mParent.getStatement();
 		
@@ -156,11 +151,10 @@ public class DBAusleiher extends JDialog {
 			System.out.println(rset.getString(1));
 			row[0] = rset.getString(1);
 			m.addRow(row);
-
 		}
 	}
 	
-	private void showByAthorBored() throws SQLException{
+	private void AutorAusleiherAnzeigen() throws SQLException{
 		DefaultTableModel m = (DefaultTableModel)(jAuthorTable.getModel());
 		stmt = mParent.getStatement();
 		

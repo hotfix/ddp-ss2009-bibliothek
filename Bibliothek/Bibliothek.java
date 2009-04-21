@@ -71,6 +71,7 @@ public class Bibliothek extends JFrame {
 	private JLabel jLabel0;
 	private JTextField jNachnameTextField;
 	private static final String PREFERRED_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+	
 	public Bibliothek() {
 		initComponents();
 	}
@@ -477,9 +478,7 @@ public class Bibliothek extends JFrame {
 
 	private void loadBiboTable() throws Exception{
 		
-		DefaultTableModel m = getTableModel();
-		//m.setRowCount(0);
-		
+		DefaultTableModel m = getTableModel();		
 			
 		String query="SELECT bo.inventarnr, bo.titel, bo.verlag, ba.vorname, ba.nachname, bo.typ, bo.erscheinungsjahr, bo.P_Ausweisnr, bo.e_Ausweisnr "+
 		 			 "FROM bibliothek_objekt bo, bibliothek_autor ba, bibliothek_objekt_hat_autor boh "+
@@ -492,7 +491,7 @@ public class Bibliothek extends JFrame {
 		
 		while(rset.next()){
 		
-			row[0]=rset.getString(1);//Inverntarnum
+			row[0]=rset.getString(1);// Inverntarnum
 			row[1]=rset.getString(2);// Titel
 			row[2]=rset.getString(3);// Verlag
 			row[3]=rset.getString(4) + " " + rset.getString(5); // Author
@@ -500,29 +499,6 @@ public class Bibliothek extends JFrame {
 			row[5]=rset.getString(7).replaceAll("-.*$",""); // Erscheinungsjahr
 			row[6]=rset.getString(8);
 			row[7]=rset.getString(9);
-			
-			/*
-			if (rset.getString(8)!=null){
-				int Ausweis = Integer.parseInt(rset.getString(8));
-				String queryForName="SELECT P_Name "+
-									"from Bibliothek_Personen " +
-									"where Ausweisnr = "+Ausweis;
-				//Statement  stmt2 = conn.createStatement();
-				ResultSet rsetP_Name = stmt.executeQuery(queryForName);
-				rsetP_Name.next();
-				row[6]=rsetP_Name.getString(1);
-			}
-			*/
-			
-
-			/*
-			queryForName="select e_name "+
-	 			"from bibliothek_einrichtungen " +
-	 			"where Ausweisnr = "+Integer.parseInt(rset.getString(9));
-			rsetP_Name.next();
-			rsetP_Name = stmt.executeQuery(queryForName);
-			row[7]=rsetP_Name.getString(1);
-			*/
 			
 			m.addRow(row);
 		}

@@ -7,16 +7,22 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.text.MaskFormatter;
+
 import org.dyno.visual.swing.layouts.Constraints;
 import org.dyno.visual.swing.layouts.GroupLayout;
 import org.dyno.visual.swing.layouts.Leading;
@@ -36,15 +42,15 @@ public class AddItem extends JDialog {
 	private JLabel jLabel0;
 	private JLabel jLabel1;
 	private JLabel jLabel2;
-	private JTextField jInventar;
 	private JLabel jLabel3;
 	private JLabel jLabel5;
 	private JLabel jLabel4;
 	private JTextPane jAuthoren;
 	private JScrollPane jScrollPane0;
 	private JComboBox jTyp;
-	private JTextField jErscheinung;
 	private JButton jCancelBtn;
+	private JFormattedTextField jErscheinung;
+	private JTextField jInventar;
 	public AddItem() {
 		initComponents();
 	}
@@ -69,14 +75,34 @@ public class AddItem extends JDialog {
 		add(getJLabel0(), new Constraints(new Leading(16, 277, 336), new Leading(60, 12, 12)));
 		add(getJLabel3(), new Constraints(new Leading(16, 277, 336), new Leading(26, 12, 12)));
 		add(getJScrollPane0(), new Constraints(new Leading(125, 297, 10, 10), new Leading(199, 77, 10, 10)));
-		add(getJInventar(), new Constraints(new Leading(125, 103, 10, 10), new Leading(25, 10, 10)));
 		add(getJTitel(), new Constraints(new Leading(125, 301, 10, 10), new Leading(59, 10, 10)));
 		add(getJVerlag(), new Constraints(new Leading(125, 297, 12, 12), new Leading(93, 10, 10)));
 		add(getJTyp(), new Constraints(new Leading(126, 137, 10, 10), new Leading(128, 12, 12)));
-		add(getJErscheinung(), new Constraints(new Leading(125, 138, 12, 12), new Leading(165, 10, 10)));
 		add(getJCancelBtn(), new Constraints(new Leading(330, 92, 12, 12), new Trailing(12, 233, 288)));
 		add(getJAddbtn(), new Constraints(new Leading(230, 94, 12, 12), new Trailing(12, 233, 288)));
+		add(getJErscheinung(), new Constraints(new Leading(125, 138, 12, 12), new Leading(165, 50, 50)));
+		add(getJInventar(), new Constraints(new Leading(125, 138, 12, 12), new Leading(24, 12, 12)));
 		setSize(443, 339);
+		setLocationRelativeTo(null);
+	}
+
+	private JTextField getJInventar() {
+		if (jInventar == null) {
+			jInventar = new JTextField();
+		}
+		return jInventar;
+	}
+
+	private JFormattedTextField getJErscheinung() {
+		if (jErscheinung == null) {
+			try {
+				jErscheinung = new JFormattedTextField(new MaskFormatter("####"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return jErscheinung;
 	}
 
 	private JButton getJCancelBtn() {
@@ -91,13 +117,6 @@ public class AddItem extends JDialog {
 			});
 		}
 		return jCancelBtn;
-	}
-
-	private JTextField getJErscheinung() {
-		if (jErscheinung == null) {
-			jErscheinung = new JTextField();
-		}
-		return jErscheinung;
 	}
 
 	private JComboBox getJTyp() {
@@ -147,13 +166,6 @@ public class AddItem extends JDialog {
 			jLabel3.setText("Inventar Nr.");
 		}
 		return jLabel3;
-	}
-
-	private JTextField getJInventar() {
-		if (jInventar == null) {
-			jInventar = new JTextField();
-		}
-		return jInventar;
 	}
 
 	private JLabel getJLabel2() {
@@ -233,12 +245,26 @@ public class AddItem extends JDialog {
 		String Typ      = new String(jTyp.getModel().getSelectedItem().toString());
 		String Erscheinung = new String(jErscheinung.getText());
 		String Authoren = new String(jAuthoren.getText());
-		Authoren.replaceAll(" *, *", ",");
 		
-		String[] AuthorenTable = jAuthoren.getText().split(",");
+		String error_message = "";
+		if (Titel.equals("")) 			 error_message = "Bitte geben Sie den Titel ein!";
+		if (!Inventar.matches("[1-9]+")) error_message = "Bitte geben Sie InventarNr noch mal ein!";
+		if (Verlag.equals("")) 			 error_message = "Bitte geben Sie die Verlag ein!";
+		if (Typ.equals("")) 			 error_message = "Bitte geben Sie den Objekttyp an!";
+		if (Authoren.equals("")) 		 error_message = "Bitte geben Sie den Author ein!";
+			
+		if (error_message != "") {
+			JOptionPane.showMessageDialog(
+					getParent(),
+					error_message,
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+					return;
+		}
 		
+		Authoren.replaceAll(" *, *", ",");		
+		String[] AuthorenTable = jAuthoren.getText().split(",");		
 		
-		//TODO: Inventar nummer prüfen ob schon so ein gibt
 		String query = ("INSERT INTO bibliothek_objekt VALUES (") +
 						Inventar + ", " + 
 						"'" + Titel + "', " + 
@@ -258,6 +284,9 @@ public class AddItem extends JDialog {
 				// author[1] = Vorname des Authors
 				// author[0] = Nachname des Authors
 				String[] autor =  AuthorenTable[i].split(" ");
+				if (autor[0]=="" || autor[1]=="") {
+					
+				}
 				if ((rset.getString(1).equals(autor[1])) && (rset.getString(2).equals(autor[0]))) {
 					query = "INSERT INTO bibliothek_objekt_hat_autor VALUES (" + 
 									anzahl_autoren + ", " + Inventar + ")";
