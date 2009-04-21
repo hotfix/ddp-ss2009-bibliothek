@@ -1,6 +1,5 @@
 package Bibliothek;
 
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -78,7 +77,6 @@ public class DBAusleiher extends JDialog {
 
 	
 	private void initComponents() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Graphics/Blue Book Icon-128x128.png")));
 		setLayout(new GroupLayout());
 		add(getJOKButton(), new Constraints(new Leading(90, 10, 10), new Leading(280, 12, 12)));
 		add(getJScrollPane0(), new Constraints(new Leading(9, 217, 10, 10), new Leading(9, 259, 12, 12)));
@@ -139,7 +137,7 @@ public class DBAusleiher extends JDialog {
 		DefaultTableModel m = (DefaultTableModel)(jAuthorTable.getModel());
 		stmt = mParent.getStatement();
 		
-		String query = ("SELECT bp.p_name " +
+		String query = ("SELECT DISTINCT bp.p_name " +
 						"FROM bibliothek_personen bp, bibliothek_ausleihhistorie ba " +
 						"WHERE bp.ausweisnr = ba.p_ausweisnr " +
 						"AND ba.inventarnr IN ( SELECT bo.inventarnr " + 
@@ -165,9 +163,9 @@ public class DBAusleiher extends JDialog {
 		String query = ("SELECT bp.p_name FROM bibliothek_personen bp, bibliothek_ausleihhistorie ba " +
 						"WHERE bp.ausweisnr = ba.p_ausweisnr AND ba.inventarnr IN " + 
 												"(SELECT bo.inventarnr FROM bibliothek_objekt bo " +
-												"WHERE bo.inventarnr IN (SELECT boha.Inventarnr " +
-    										  						  	"FROM bibliothek_objekt_hat_autor boha " +
-    										  						  	"WHERE boha.id IN (SELECT bau.id "+
+												 "WHERE bo.inventarnr IN (SELECT boha.Inventarnr " +
+    										  						  	  "FROM bibliothek_objekt_hat_autor boha " +
+    										  						  	  "WHERE boha.id IN (SELECT bau.id "+
     										  						  						"FROM bibliothek_autor bau " +
     										  						  						"WHERE bau.vorname = " + authorVN +
     										  						  						"AND bau.nachname = " + authorNN +
