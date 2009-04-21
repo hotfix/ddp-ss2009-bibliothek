@@ -1,5 +1,6 @@
 package Bibliothek;
 
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -17,6 +18,9 @@ import org.dyno.visual.swing.layouts.Constraints;
 import org.dyno.visual.swing.layouts.GroupLayout;
 import org.dyno.visual.swing.layouts.Leading;
 
+/**
+ * 
+ */
 
 //VS4E -- DO NOT REMOVE THIS LINE!
 public class DBAusleiher extends JDialog {
@@ -49,7 +53,8 @@ public class DBAusleiher extends JDialog {
 				    JOptionPane.ERROR_MESSAGE);
 			
 			e.printStackTrace();
-		}		
+		}
+		
 	}
 	
 	public DBAusleiher(Bibliothek parent, String vn, String nn ) {
@@ -73,14 +78,12 @@ public class DBAusleiher extends JDialog {
 
 	
 	private void initComponents() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Graphics/Blue Book Icon-128x128.png")));
 		setLayout(new GroupLayout());
-		setVisible(true);
 		add(getJOKButton(), new Constraints(new Leading(90, 10, 10), new Leading(280, 12, 12)));
 		add(getJScrollPane0(), new Constraints(new Leading(9, 217, 10, 10), new Leading(9, 259, 12, 12)));
 		setSize(234, 313);
-		setLocationRelativeTo(null);
 	}
-
 
 	private JScrollPane getJScrollPane0() {
 		if (jScrollPane0 == null) {
@@ -151,6 +154,7 @@ public class DBAusleiher extends JDialog {
 			System.out.println(rset.getString(1));
 			row[0] = rset.getString(1);
 			m.addRow(row);
+
 		}
 	}
 	
@@ -162,12 +166,12 @@ public class DBAusleiher extends JDialog {
 						"WHERE bp.ausweisnr = ba.p_ausweisnr AND ba.inventarnr IN " + 
 												"(SELECT bo.inventarnr FROM bibliothek_objekt bo " +
 												"WHERE bo.inventarnr IN (SELECT boha.Inventarnr " +
-    										  						  	 "FROM bibliothek_objekt_hat_autor boha " +
-    										  						  	 "WHERE boha.id IN (SELECT bau.id "+
-    										  						  					   "FROM bibliothek_autor bau " +
-    										  						  					   "WHERE bau.vorname = " + authorVN +
-    										  						  					   "AND bau.nachname = "  + authorNN +
-    																					   ")))"); 
+    										  						  	"FROM bibliothek_objekt_hat_autor boha " +
+    										  						  	"WHERE boha.id IN (SELECT bau.id "+
+    										  						  						"FROM bibliothek_autor bau " +
+    										  						  						"WHERE bau.vorname = " + authorVN +
+    										  						  						"AND bau.nachname = " + authorNN +
+    																					")))"); 
 	//	String query = ("SELECT bp.p_name FROM bibliothek_personen bp"); 
 		rset = stmt.executeQuery(query);
 		String [] row = new String[1];
@@ -180,7 +184,11 @@ public class DBAusleiher extends JDialog {
 
 		}
 	}
-	
+
+
+	public DBAusleiher() {
+		initComponents();
+	}
 }
 
 /*
