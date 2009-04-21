@@ -158,7 +158,7 @@ public class Bibliothek extends JFrame {
 			jDBAuslierAnzeigen.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent event) {
-					jDBAuslierAnzeigenMouseMouseClicked(event);
+					jDBAuslierAnzeigenClicked(event);
 				}
 			});
 		}
@@ -172,7 +172,7 @@ public class Bibliothek extends JFrame {
 			jAuslierByAuthorAnzeigen.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent event) {
-					jAuslierByAuthorAnzeigenMouseMouseClicked(event);
+					jAuslierByAuthorAnzeigenClicked(event);
 				}
 			});
 		}
@@ -574,24 +574,22 @@ public class Bibliothek extends JFrame {
 		}
 	}
 
-	private void jDBAuslierAnzeigenMouseMouseClicked(MouseEvent event) {
+	private void jDBAuslierAnzeigenClicked(MouseEvent event) {
 		
 		if (conn!=null) {	
 			DBAusleiher dialog = new DBAusleiher(this);
 			dialog.pack();
-			//dialog.setTitle("Add Bibo Objekt");
-			dialog.setVisible(true);			
+			dialog.setTitle("Datenbank Ausleiher");		
 		}
 	}
 
-	private void jAuslierByAuthorAnzeigenMouseMouseClicked(MouseEvent event) {
+	private void jAuslierByAuthorAnzeigenClicked(MouseEvent event) {
 		String vorname = jAuthorTextField.getText();
 		String nachname = jNachnameTextField.getText();
 		if (conn!=null) {	
 			DBAusleiher dialog = new DBAusleiher(this, vorname, nachname);
 			dialog.pack();
-			//dialog.setTitle("Add Bibo Objekt");
-			dialog.setVisible(true);			
+			dialog.setTitle(vorname+' '+nachname);			
 		}
 	}
 

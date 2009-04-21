@@ -78,10 +78,12 @@ public class DBAusleiher extends JDialog {
 	
 	private void initComponents() {
 		setLayout(new GroupLayout());
+		setVisible(true);
 		add(getJOKButton(), new Constraints(new Leading(90, 10, 10), new Leading(280, 12, 12)));
 		add(getJScrollPane0(), new Constraints(new Leading(9, 217, 10, 10), new Leading(9, 259, 12, 12)));
 		setSize(234, 313);
-		
+		setLocationRelativeTo(null);
+
 	}
 
 
@@ -184,11 +186,7 @@ public class DBAusleiher extends JDialog {
 
 		}
 	}
-
-
-	public DBAusleiher() {
-		initComponents();
-	}
+	
 }
 
 /*
