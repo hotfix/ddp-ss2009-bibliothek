@@ -247,11 +247,10 @@ public class AddItem extends JDialog {
 		String Authoren = new String(jAuthoren.getText());
 		
 		String error_message = "";
-		if (Titel.equals("")) 			 error_message = "Bitte geben Sie den Titel ein!";
-		if (!Inventar.matches("[1-9]+")) error_message = "Bitte geben Sie InventarNr noch mal ein!";
-		if (Verlag.equals("")) 			 error_message = "Bitte geben Sie die Verlag ein!";
-		if (Typ.equals("")) 			 error_message = "Bitte geben Sie den Objekttyp an!";
-		if (Authoren.equals("")) 		 error_message = "Bitte geben Sie den Author ein!";
+		if (!Inventar.matches("[1-9]+")) 	  error_message = "Bitte geben Sie InventarNr noch mal ein!";
+		else if  (Titel.equals(""))			  error_message = "Bitte geben Sie den Titel ein!";
+		else if (Verlag.equals("")) 		  error_message = "Bitte geben Sie die Verlag ein!";
+		else if (Authoren.equals("")) 		  error_message = "Bitte geben Sie den Author ein!";
 			
 		if (error_message != "") {
 			JOptionPane.showMessageDialog(
@@ -284,8 +283,13 @@ public class AddItem extends JDialog {
 				// author[1] = Vorname des Authors
 				// author[0] = Nachname des Authors
 				String[] autor =  AuthorenTable[i].split(" ");
-				if (autor[0]=="" || autor[1]=="") {
-					
+				if (autor[0]==null || autor[1]==null) {
+					JOptionPane.showMessageDialog(
+							getParent(),
+							"Bitte geben Sie die Autorennamen richtig ein!",
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+							return;
 				}
 				if ((rset.getString(1).equals(autor[1])) && (rset.getString(2).equals(autor[0]))) {
 					query = "INSERT INTO bibliothek_objekt_hat_autor VALUES (" + 
