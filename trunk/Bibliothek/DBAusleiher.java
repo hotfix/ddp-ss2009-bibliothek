@@ -159,7 +159,7 @@ public class DBAusleiher extends JDialog {
 	private void AutorAusleiherAnzeigen() throws SQLException{
 		DefaultTableModel m = (DefaultTableModel)(jAuthorTable.getModel());
 		stmt = mParent.getStatement();
-		
+		System.out.println("Author: " + authorVN + " " + authorNN +" ");
 		String query = ("SELECT bp.p_name FROM bibliothek_personen bp, bibliothek_ausleihhistorie ba " +
 						"WHERE bp.ausweisnr = ba.p_ausweisnr AND ba.inventarnr IN " + 
 												"(SELECT bo.inventarnr FROM bibliothek_objekt bo " +
@@ -167,14 +167,14 @@ public class DBAusleiher extends JDialog {
     										  						  	  "FROM bibliothek_objekt_hat_autor boha " +
     										  						  	  "WHERE boha.id IN (SELECT bau.id "+
     										  						  						"FROM bibliothek_autor bau " +
-    										  						  						"WHERE bau.vorname = " + authorVN +
-    										  						  						"AND bau.nachname = " + authorNN +
-    																					")))"); 
-	//	String query = ("SELECT bp.p_name FROM bibliothek_personen bp"); 
+    										  						  						"WHERE bau.vorname = '" + authorVN + "'" +
+    										  						  						" AND bau.nachname = '" + authorNN + "'" + 
+    																					")))");
+    																				  
 		rset = stmt.executeQuery(query);
 		String [] row = new String[1];
 		
-		System.out.println("Personen die jemals das Buch von " + authorVN + authorNN +" ausgeliehen haben:");
+		System.out.println("Personen die jemals das Buch von " + authorVN + " " + authorNN +" ausgeliehen haben:");
 		while (rset.next()){
 			System.out.println(rset.getString(1));
 			row[0] = rset.getString(1);
