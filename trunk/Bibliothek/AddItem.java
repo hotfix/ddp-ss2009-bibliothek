@@ -2,26 +2,22 @@ package Bibliothek;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
 
 import org.dyno.visual.swing.layouts.Constraints;
 import org.dyno.visual.swing.layouts.GroupLayout;
@@ -50,8 +46,8 @@ public class AddItem extends JDialog {
 	private JScrollPane jScrollPane0;
 	private JComboBox jTyp;
 	private JButton jCancelBtn;
-	private JFormattedTextField jErscheinung;
 	private JTextField jInventar;
+	private JComboBox jErscheinungsjahr;
 	public AddItem() {
 		initComponents();
 	}
@@ -65,7 +61,6 @@ public class AddItem extends JDialog {
 
 	private void initComponents() {
 		setTitle("Add Bibo Objekt");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Graphics/Blue Book Icon-128x128.png")));
 		setFont(new Font("Dialog", Font.PLAIN, 12));
 		setBackground(new Color(240, 240, 240));
 		setModal(true);
@@ -83,9 +78,26 @@ public class AddItem extends JDialog {
 		add(getJTyp(), new Constraints(new Leading(126, 137, 10, 10), new Leading(128, 12, 12)));
 		add(getJCancelBtn(), new Constraints(new Leading(330, 92, 12, 12), new Trailing(12, 233, 288)));
 		add(getJAddbtn(), new Constraints(new Leading(230, 94, 12, 12), new Trailing(12, 233, 288)));
-		add(getJErscheinung(), new Constraints(new Leading(125, 138, 12, 12), new Leading(165, 50, 50)));
 		add(getJInventar(), new Constraints(new Leading(125, 138, 12, 12), new Leading(24, 12, 12)));
+		add(getJErscheinungsjahr(), new Constraints(new Leading(126, 82, 10, 10), new Leading(165, 12, 12)));
 		setSize(443, 339);
+	}
+
+	private JComboBox getJErscheinungsjahr() {
+		if (jErscheinungsjahr == null) {
+			jErscheinungsjahr = new JComboBox();
+			jErscheinungsjahr.setModel(new DefaultComboBoxModel(new Object[] { "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999",
+					"1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981",
+					"1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970", "1969", "1968", "1967", "1966", "1965", "1964", "1963",
+					"1962", "1961", "1960", "1959", "1958", "1957", "1956", "1955", "1954", "1953", "1952", "1951", "1950", "1949", "1948", "1947", "1946", "1945",
+					"1944", "1943", "1942", "1941", "1940", "1939", "1938", "1937", "1936", "1935", "1934", "1933", "1932", "1931", "1930", "1929", "1928", "1927",
+					"1926", "1925", "1924", "1923", "1922", "1921", "1920", "1919", "1918", "1917", "1916", "1915", "1914", "1913", "1912", "1911", "1910", "1909",
+					"1908", "1907", "1906", "1905", "1904", "1903", "1902", "1901", "1900" }));
+			jErscheinungsjahr.setDoubleBuffered(false);
+			jErscheinungsjahr.setAutoscrolls(true);
+			jErscheinungsjahr.setBorder(null);
+		}
+		return jErscheinungsjahr;
 	}
 
 	private JTextField getJInventar() {
@@ -93,18 +105,6 @@ public class AddItem extends JDialog {
 			jInventar = new JTextField();
 		}
 		return jInventar;
-	}
-
-	private JFormattedTextField getJErscheinung() {
-		if (jErscheinung == null) {
-			try {
-				jErscheinung = new JFormattedTextField(new MaskFormatter("####"));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return jErscheinung;
 	}
 
 	private JButton getJCancelBtn() {
@@ -245,7 +245,7 @@ public class AddItem extends JDialog {
 		String Titel    = new String(jTitel.getText());
 		String Verlag   = new String(jVerlag.getText());
 		String Typ      = new String(jTyp.getModel().getSelectedItem().toString());
-		String Erscheinung = new String(jErscheinung.getText());
+		String Erscheinung = new String((String)jErscheinungsjahr.getSelectedItem());
 		String Authoren = new String(jAuthoren.getText());
 		
 		String error_message = "";
