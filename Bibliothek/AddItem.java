@@ -32,6 +32,7 @@ public class AddItem extends JDialog {
 	private Statement stmt;
 	private ResultSet rset;
 	
+	
 	private static final long serialVersionUID = 1L;
 	private JButton jAddbtn;
 	private JTextField jTitel;
@@ -322,14 +323,17 @@ public class AddItem extends JDialog {
 			for(int i = 0; i < AuthorenTable.length; i++) {
 				String[] autor =  AuthorenTable[i].split(" ");
 				// insert into bib_objekt_hat_autor
+				anzahl_autoren+=1;
 				query = "INSERT INTO Bibliothek_Autor VALUES (" + 
-						(anzahl_autoren+1) + ", '" + autor[1] + "', '" + autor[0] + "')";
+						(anzahl_autoren) + ", '" + autor[1] + "', '" + autor[0] + "')";
 				stmt.executeQuery(query);
 				
+				String query2 = "INSERT INTO Bibliothek_Objekt_hat_Autor VALUES (" + 
+								(anzahl_autoren) + ", " + Inventar + ")";
+				stmt.executeQuery(query2);
+				
 			}
-			query = "INSERT INTO Bibliothek_Objekt_hat_Autor VALUES (" + 
-					(anzahl_autoren+1) + ", " + Inventar + ")";
-			stmt.executeQuery(query);
+			
 		}
 		
 		

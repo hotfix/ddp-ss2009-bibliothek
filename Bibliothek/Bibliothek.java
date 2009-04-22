@@ -3,7 +3,6 @@ package Bibliothek;
 //import BibliothekControll;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -71,7 +70,6 @@ public class Bibliothek extends JFrame {
 	private JLabel jLabel0;
 	private JTextField jNachnameTextField;
 	private static final String PREFERRED_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-	
 	public Bibliothek() {
 		initComponents();
 	}
@@ -86,7 +84,6 @@ public class Bibliothek extends JFrame {
 	
 	private void initComponents() {
 		setTitle("Bibliothek");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Graphics/Blue Book Icon-128x128.png")));
 		setLayout(new GroupLayout());
 		add(getJPort(), new Constraints(new Leading(530, 10, 10), new Leading(31, 12, 12)));
 		add(getJDBTypeLabel(), new Constraints(new Leading(12, 12, 12), new Leading(63, 12, 12)));
@@ -481,7 +478,8 @@ public class Bibliothek extends JFrame {
 		DefaultTableModel m = getTableModel();		
 			
 		String query =  "SELECT bo.inventarnr, bo.titel, bo.verlag, bo.typ, bo.erscheinungsjahr, bo.P_Ausweisnr, bo.e_Ausweisnr " +
-						"FROM bibliothek_objekt bo"; 
+						"FROM bibliothek_objekt bo " +
+						"ORDER BY bo.inventarnr"; 
 		  
 		rset = stmt.executeQuery(query);
 		
@@ -569,7 +567,8 @@ public class Bibliothek extends JFrame {
 		if (conn!=null) {	
 			DBAusleiher dialog = new DBAusleiher(this);
 			dialog.pack();
-			dialog.setTitle("Datenbank Ausleiher");		
+			dialog.setTitle("Datenbank Ausleiher");	
+			dialog.setVisible(true);
 		}
 	}
 
@@ -579,7 +578,8 @@ public class Bibliothek extends JFrame {
 		if (conn!=null) {	
 			DBAusleiher dialog = new DBAusleiher(this, vorname, nachname);
 			dialog.pack();
-			dialog.setTitle(vorname+' '+nachname);			
+			dialog.setTitle(vorname+' '+nachname);
+			dialog.setVisible(true);
 		}
 	}
 
