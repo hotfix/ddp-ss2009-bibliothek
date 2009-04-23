@@ -53,7 +53,7 @@ INSERT INTO Bibliothek_Ausleihhistorie VALUES (4, 333, 7);
 INSERT INTO Bibliothek_Ausleihhistorie VALUES (5, 111, 10);
 INSERT INTO Bibliothek_Ausleihhistorie VALUES (6, 333, 10);
 INSERT INTO Bibliothek_Ausleihhistorie VALUES (7, 444, 9);
-INSERT INTO Bibliothek_Ausleihhistorie VALUES (8, 444, 10);
+INSERT INTO Bibliothek_Ausleihhistorie VALUES (8, 222, 10);
 
 /*zuviel
 INSERT INTO Bibliothek_Autor VALUES (6, 'Erlenkötter', 'Helmut');
