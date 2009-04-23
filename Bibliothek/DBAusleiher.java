@@ -42,6 +42,7 @@ public class DBAusleiher extends JDialog {
 		super(parent);
 		mParent = parent;
 		initComponents();
+		setLocationRelativeTo(null);
 		try {
 			dbAusleiherAnzeigen();
 		} catch (SQLException e) {
@@ -63,7 +64,7 @@ public class DBAusleiher extends JDialog {
 		authorNN = nn;
 		authorVN = vn;
 		initComponents();
-		
+		setLocationRelativeTo(null);
 		try {
 			AutorAusleiherAnzeigen();
 		} catch (SQLException e) {
