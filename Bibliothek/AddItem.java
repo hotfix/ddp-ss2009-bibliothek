@@ -58,6 +58,7 @@ public class AddItem extends JDialog {
 		mParent = parent;
 		tableModel = _tableModel;
 		initComponents();
+		setLocationRelativeTo(null);
 	}
 
 	private void initComponents() {
@@ -322,8 +323,8 @@ public class AddItem extends JDialog {
 			
 			for(int i = 0; i < AuthorenTable.length; i++) {
 				String[] autor =  AuthorenTable[i].split(" ");
+				anzahl_autoren++;
 				// insert into bib_objekt_hat_autor
-				anzahl_autoren+=1;
 				query = "INSERT INTO Bibliothek_Autor VALUES (" + 
 						(anzahl_autoren) + ", '" + autor[1] + "', '" + autor[0] + "')";
 				stmt.executeQuery(query);
@@ -332,8 +333,8 @@ public class AddItem extends JDialog {
 								(anzahl_autoren) + ", " + Inventar + ")";
 				stmt.executeQuery(query2);
 				
-			}
-			
+			}			
+
 		}
 		
 		
